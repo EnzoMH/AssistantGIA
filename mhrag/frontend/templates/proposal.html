@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Proposal Creator</title>
+    <script>
+        function validatePresentationForm() {
+            var slideCount = document.forms["presentationForm"]["slide_count"].value;
+            if (isNaN(slideCount) || slideCount < 1) {
+                alert("유효한 슬라이드 수를 입력하세요.");
+                return false;
+            }
+            return true;
+        }
+
+        function addSubsection(divId, prefix) {
+            var div = document.getElementById(divId);
+            var count = div.getElementsByTagName('input').length / 2;
+            if (count < 10) {
+                var label = document.createElement('label');
+                label.innerHTML = (count + 1) + ". 하위 항목:";
+                div.appendChild(label);
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.id = prefix + "_" + (count + 1);
+                input.name = prefix + "_" + (count + 1);
+                div.appendChild(input);
+                div.appendChild(document.createElement('br'));
+                div.appendChild(document.createElement('br'));
+            }
+        }
+    </script>
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>제안서 생성기</h2>
+    <form name="presentationForm" action="/create_presentation" method="post" onsubmit="return validatePresentationForm()">
+        <label for="slide_count">슬라이드 수를 입력하세요:</label>
+        <input type="text" id="slide_count" name="slide_count"><br><br>
+
+        <label for="head_title">제안서 제목을 입력하세요:</label>
+        <input type="text" id="head_title" name="head_title"><br><br>
+
+        <label for="subtitle">부제목을 입력하세요:</label>
+        <input type="text" id="subtitle" name="subtitle"><br><br>
+
+        <label for="section0">목차 제목을 입력하세요:</label>
+        <input type="text" id="section0" name="section0"><br><br>
+
+        <label for="section1">1번째 섹션 제목을 입력하세요 (예시: 제안개요 또는 사업개요 등):</label>
+        <input type="text" id="section1" name="section1"><br><br>
+
+        <div id="subsections1">
+            <label for="subsection1_1">1. 하위 항목:</label>
+            <input type="text" id="subsection1_1" name="subsection1_1"><br><br>
+        </div>
+        <button type="button" onclick="addSubsection('subsections1', 'subsection1')">하위 항목 추가</button><br><br>
+
+        <label for="section2">2번째 섹션 제목을 입력하세요 (예시: 세부연출기획안 또는 공간구성계획 등):</label>
+        <input type="text" id="section2" name="section2"><br><br>
+
+        <div id="subsections2">
+            <label for="subsection2_1">1. 하위 항목:</label>
+            <input type="text" id="subsection2_1" name="subsection2_1"><br><br>
+        </div>
+        <button type="button" onclick="addSubsection('subsections2', 'subsection2')">하위 항목 추가</button><br><br>
+
+        <label for="section3">3번째 섹션 제목을 입력하세요 (예시: 세부연출계획안 또는 공간연출계획안 등):</label>
+        <input type="text" id="section3" name="section3"><br><br>
+
+        <div id="subsections3">
+            <label for="subsection3_1">1. 하위 항목:</label>
+            <input type="text" id="subsection3_1" name="subsection3_1"><br><br>
+        </div>
+        <button type="button" onclick="addSubsection('subsections3', 'subsection3')">하위 항목 추가</button><br><br>
+
+        <label for="section4">4번째 섹션 제목을 입력하세요 (예시: 관리운영계획):</label>
+        <input type="text" id="section4" name="section4"><br><br>
+
+        <div id="subsections4">
+            <label for="subsection4_1">1. 하위 항목:</label>
+            <input type="text" id="subsection4_1" name="subsection4_1"><br><br>
+        </div>
+        <button type="button" onclick="addSubsection('subsections4', 'subsection4')">하위 항목 추가</button><br><br>
+
+        <label for="add_additional_page">추가제안 페이지를 만드시겠어요?</label>
+        <select id="add_additional_page" name="add_additional_page">
+            <option value="1">아니오</option>
+            <option value="0">예</option>
+        </select><br><br>
+
+        <input type="submit" value="제안서 슬라이드 만들기">
+    </form>
+    <div class="footer">
+        <button onclick="window.location.href='/'">뒤로가기</button>
+        <button onclick="window.location.href='/excel'">전시연출총괄표 생성기</button>
+    </div>
+</body>
+</html>

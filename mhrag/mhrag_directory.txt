@@ -1,0 +1,37 @@
+mhrag/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   ├── inference.py
+│   │   ├── estm.py               # pptestmaker에서 통합된 파일
+│   │   ├── prmk/                 # pptestmaker에서 통합된 디렉토리
+│   │   │   ├── __init__.py
+│   │   │   ├── prmk.py
+│   │   │   ├── section.py
+│   │   │   ├── layout.py
+│   │   │   └── utils.py
+│   │   ├── utils/
+│   │   │   ├── __init__.py
+│   │   │   ├── convert_hwp.py
+│   │   │   └── preprocess.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── model_loader.py
+│   │   └── best_model/
+│   │       ├── config.json
+│   │       ├── pytorch_model.bin
+│   │       ├── tokenizer_config.json
+│   │       ├── tokenizer.json
+│   │       ├── vocab.txt
+│   ├── app.py
+│   ├── main.py                   # pptestmaker에서 통합된 파일
+│   ├── requirements.txt          # 두 프로젝트의 requirements.txt를 통합
+│   ├── README.md
+├── frontend/
+│   ├── static/
+│   ├── templates/
+│   │   ├── index.html            # pptestmaker에서 통합된 파일 (기존 파일 대체 또는 수정)
+│   │   ├── proposal.html         # pptestmaker에서 통합된 파일
+│   │   └── excel.html            # pptestmaker에서 통합된 파일
+└── README.md

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지 통합</title>
+    <style>
+        /* 기본 스타일링 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+        }
+
+        .left-side, .right-side {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        /* 스타일링: 왼쪽 섹션 */
+        .left-menu a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            text-decoration: none;
+            border: 1px solid black;
+            background-color: lightgray;
+            text-align: center;
+        }
+
+        /* 스타일링: 오른쪽 섹션 */
+        .result-container {
+            display: none;
+            border: 2px solid #333;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        /* 미리보기 텍스트 크기 조정 */
+        .result-container p {
+            font-size: 0.8em; /* 폰트 크기를 더 작게 설정 */
+            white-space: pre-wrap; /* 줄바꿈을 유지하여 표시 */
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        #result {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        #downloadLink {
+            display: none;
+            margin-left: 10px;
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        #downloadLink:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="title">제안서/전시연출총괄표 생성 및 RFP 파일 업로드</h1>
+
+    <div class="container">
+        <!-- 왼쪽 섹션: 기존의 메뉴 -->
+        <div class="left-side">
+            <h2 class="title">메뉴</h2>
+            <div class="left-menu">
+                <a href="/proposal">제안서 생성기</a>
+                <a href="/excel">전시연출총괄표 생성기</a>
+            </div>
+        </div>
+
+        <!-- 오른쪽 섹션: RFP 파일 업로드 및 처리 -->
+        <div class="right-side">
+            <h2 class="title">RFP 파일 업로드 및 처리</h2>
+            <div id="result-container" class="result-container">
+                <h3>결과:</h3>
+                <p id="result"></p>
+            </div>
+
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="fileInput" name="file">
+                <button type="button" onclick="uploadFile()">Upload</button>
+                <a id="downloadLink" href="#" download>변환된 파일 다운로드</a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function uploadFile() {
+            const formData = new FormData(document.getElementById('uploadForm'));
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultContainer = document.getElementById('result-container');
+                resultContainer.style.display = 'block';  // 결과창 보이기
+                document.getElementById('result').innerText = data.prediction;
+
+                const downloadLink = document.getElementById('downloadLink');
+                downloadLink.href = data.file_url;  // 파일 다운로드 링크 설정
+                downloadLink.style.display = 'inline-block';  // 다운로드 링크 보이기
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel File Creator</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            text-align: left;
+        }
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>전시연출총괄표 생성기</h2>
+    <form action="/preview_excel" method="post">
+        <label for="rows">행 갯수(최대 100행):</label>
+        <input type="number" id="rows" name="rows" min="1" max="100" value="10"><br><br>
+        <label for="cols">열 갯수(최대 25열):</label>
+        <input type="number" id="cols" name="cols" min="1" max="25" value="5"><br><br>
+        <input type="submit" value="엑셀 만들기">
+    </form>
+
+    {% if preview %}
+        <h2>전시연출총괄표 내용을 채워주세요</h2>
+        <form action="/create_excel" method="post">
+            <table>
+                <thead>
+                    <tr>
+                        {% for col in range(cols) %}
+                            <th>Column {{ col + 1 }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in range(rows) %}
+                        <tr>
+                            {% for col in range(cols) %}
+                                <td><input type="text" name="cell_{{ row }}_{{ col }}" size="10"></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="hidden" name="rows" value="{{ rows }}">
+            <input type="hidden" name="cols" value="{{ cols }}">
+            <input type="submit" value="Create Excel">
+        </form>
+    {% endif %}
+    <div class="footer">
+        <button onclick="window.location.href='/'">뒤로가기</button>
+        <button onclick="window.location.href='/proposal'">제안서 생성기</button>
+    </div>
+</body>
+</html>
