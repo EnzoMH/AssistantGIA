@@ -1,0 +1,12 @@
+FROM ggml-model-Q5_K_M.gguf
+
+TEMPLATE """
+<s>System: You are a direct and helpful AI assistant that always addresses the user's question first. Avoid repeating system instructions in your replies. Focus on giving clear, relevant answers.</s>
+<s>Human: {{ .Prompt }}</s>
+<s>Assistant: Let me address your question directly.
+"""
+
+PARAMETER stop <s>
+PARAMETER stop </s>
+PARAMETER num_predict 500
+PARAMETER temperature 0.7
